@@ -13,6 +13,8 @@ npm i --save @vampyreio/schildwall
 
 ## How To Use
 ```typescript
+// gateway.class.ts
+
 import { ListenerErrorHandler, GatewayApp, MasterGateway } from '@vampyreio/schildwall';
 import { HeaderMiddleware } from './app/middleware';
 
@@ -28,6 +30,16 @@ import { HeaderMiddleware } from './app/middleware';
     ],
 })
 export class Gateway extends MasterGateway { }
+
+// index.ts
+import { Gateway } from './gateway.class';
+
+const gateway = new Gateway();
+
+async function bootstrap() {
+    const server = await gateway.init();
+    server.listen(3000);
+}
 
 ```
 
