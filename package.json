@@ -1,6 +1,6 @@
 {
   "name": "@vampyreio/schildwall",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "gateway for microservice infrastructures",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -11,7 +11,12 @@
     "type": "git",
     "url": "git+https://github.com/vampyre-io/schildwall.git"
   },
-  "keywords": [],
+  "keywords": [
+    "gateway",
+    "proxy",
+    "typescript",
+    "server"
+  ],
   "author": "Tobias Kavsek",
   "license": "Apache-2.0",
   "bugs": {
