@@ -12,6 +12,10 @@ npm i --save @vampyreio/schildwall
 ```
 
 ## How To Use
+The example can be ran using 'npm run-script example' and starts a proxy server on port 8000 with an endpoint
+
+* `/test/` which points to localhost:8888
+
 ```typescript
 // gateway.class.ts
 
