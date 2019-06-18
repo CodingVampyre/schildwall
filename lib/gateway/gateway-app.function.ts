@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {Server, createServer} from 'http';
+import { Server, createServer } from 'http';
 import { MasterGateway, ListenerManager, IGatewayOptions } from '.';
 import httpProxy from 'http-proxy';
 
@@ -22,7 +22,7 @@ import httpProxy from 'http-proxy';
  * 
  * @param options 
  */
-export function GatewayApp(options: IGatewayOptions){
+export function GatewayApp(options: IGatewayOptions) {
     return (constructorFunction: Function) => {
 
         /**
@@ -34,7 +34,7 @@ export function GatewayApp(options: IGatewayOptions){
              * 
              */
             public async init(): Promise<Server> {
-                
+
                 // instanciate server
                 if (options.log) console.log('[gateway] instantiate server');
                 const listenerManager = new ListenerManager();

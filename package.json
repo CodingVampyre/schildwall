@@ -1,10 +1,11 @@
 {
   "name": "@vampyreio/schildwall",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "gateway for microservice infrastructures",
-  "main": "build/index.js",
-  "types": "build/index.d.ts",
+  "main": "build/lib/index.js",
+  "types": "build/lib/index.d.ts",
   "scripts": {
+    "example": "node ./build/example/simple-gateway.example.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
