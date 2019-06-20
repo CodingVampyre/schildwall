@@ -20,6 +20,7 @@ import { EventEmitter } from "events";
 import { TargetSelector } from '../../gateway';
 import { IGatewayTarget } from '../types';
 import { Middleware } from '../middleware';
+import { HttpError } from '../middleware/http-error';
 
 export class ListenerManager extends EventEmitter {
 
@@ -39,7 +40,24 @@ export class ListenerManager extends EventEmitter {
             if (endpoint == null) return this.emit('error', { request, response, message: 'no_such_target' });
 
             // execute middlewares middleware
-            for (const middleware of this.middlewares) await middleware.execute({request, response});
+            try {
+                for (const middleware of this.middlewares) await middleware.execute({request, response});
+            } catch (error) {
+
+                // TODO send to error handing module
+                // ************
+                console.log(error.message); 
+
+                // make typesafe
+                error = error as HttpError;
+
+                // set status code to error code
+                response.statusCode = error.statusCode;
+
+                // write mandatory headers
+                for (const header in error.headers) response.setHeader(header, error.headers[header]);
+                // ************
+            }
 
             // send requet to actual server
             return proxy.web(request, response, { target: endpoint });
