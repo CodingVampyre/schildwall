@@ -5,7 +5,7 @@ import {GatewayApp, MasterGateway, ListenerErrorHandler} from '../lib';
     listenerErrorHandler: new ListenerErrorHandler,
     endpoints: [
         {
-            endpoint: 'http://localhost:8888', name: 'test'
+            endpoint: 'http://localhost:3000', name: 'mock'
         }
     ]
 })

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { IGatewayTarget } from "../types";
+import { IGatewayTarget } from "./types";
 
 /**
  * 

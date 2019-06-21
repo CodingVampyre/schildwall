@@ -17,7 +17,7 @@
 import http from 'http';
 import HttpProxy from 'http-proxy';
 import { EventEmitter } from "events";
-import { TargetSelector } from '../../gateway';
+import { TargetSelector } from '..';
 import { IGatewayTarget } from '../types';
 import { Middleware } from '../middleware';
 import { HttpError } from '../middleware/http-error';

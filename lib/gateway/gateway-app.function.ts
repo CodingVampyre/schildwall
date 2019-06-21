@@ -15,7 +15,8 @@
  */
 
 import { Server, createServer } from 'http';
-import { MasterGateway, ListenerManager, IGatewayOptions } from '.';
+import { MasterGateway, IGatewayOptions } from '.';
+import { ListenerManager } from './listener-manager';
 import httpProxy from 'http-proxy';
 
 /**
