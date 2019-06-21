@@ -61,5 +61,52 @@ because the first parameter of the path will be mapped onto the provided endpoin
 
 
 ## Middleware
+Middleware can be attached to the gateway easily. 
+A Middleware contains methods that control what it should do on startup, on shutdown and on execution.
+It has access to the servers request and response via the `ctx` object. 
 
-## Error Handing
+> to let a header block the request and answer it itself with an error, it's not required to set the answer manually.
+> Schildwall provides Error Objects for all 4xx and 5xx errors. 
+> when such an error is thrown, an internal error handler does this itself. 
+> It will me overwritable in upcoming versions to allow manual error handling.
+
+Middleware will be executed in the order of binding.
+
+> In upcoming versions, middlewares will be able to pass data to following middlewares.
+
+```typescript
+import {Middleware, IGatewayContext, BadGatewayException} from '../lib';
+
+/**
+ * checks for a 'kill-me' header and if it is true, throw an exception
+ */
+class HeaderScanner extends Middleware {
+
+    /**
+     * executes when a request enters
+     */
+    public async execute(ctx: IGatewayContext): Promise<any> {
+
+        if (ctx.request.headers['kill-me'] === 'true') 
+            throw new BadGatewayException('kill-me header was found');
+
+    }
+
+    /**
+     * executes when a middleware is bound
+     */
+    public async start(): Promise<any> {
+        // Setup, initialisation, precondition checking, ...
+    }
+
+    /**
+     * executes when the server should stop
+     */
+    public async stop(): Promise<any> { 
+        // Cleanup, stopping processes, deletions, ...
+    }
+
+}
+```
+
+## Error Handling

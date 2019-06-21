@@ -1,4 +1,17 @@
-import {GatewayApp, MasterGateway, ListenerErrorHandler} from '../lib';
+import {GatewayApp, MasterGateway, ListenerErrorHandler, Middleware, IGatewayContext, BadGatewayException} from '../lib';
+
+/**
+ * checks for a 'kill-me' header and if it is true, throw an exception
+ */
+class HeaderScanner extends Middleware {
+
+    public async execute(ctx: IGatewayContext): Promise<any> {
+
+        if (ctx.request.headers['kill-me'] === 'true') throw new BadGatewayException('kill-me header was found');
+
+    }
+
+}
 
 @GatewayApp({
     log: true,
@@ -7,6 +20,9 @@ import {GatewayApp, MasterGateway, ListenerErrorHandler} from '../lib';
         {
             endpoint: 'http://localhost:3000', name: 'mock'
         }
+    ],
+    middlewares: [
+        new HeaderScanner(),
     ]
 })
 class Gateway extends MasterGateway {}

@@ -41,26 +41,29 @@ export class ListenerManager extends EventEmitter {
 
             // execute middlewares middleware
             try {
-                for (const middleware of this.middlewares) await middleware.execute({request, response});
+                for (const middleware of this.middlewares) 
+                    await middleware.execute({request, response});
             } catch (error) {
 
                 // TODO send to error handing module
                 // ************
-                console.log(error.message); 
 
                 // make typesafe
                 error = error as HttpError;
 
                 // set status code to error code
-                response.statusCode = error.statusCode;
+                response.statusCode = error.httpStatusCode || 500;
 
                 // write mandatory headers
                 for (const header in error.headers) response.setHeader(header, error.headers[header]);
+
+                // end
+                return response.end();
                 // ************
             }
 
             // send requet to actual server
-            return proxy.web(request, response, { target: endpoint });
+            //return proxy.web(request, response, { target: endpoint });
         }
     }
 

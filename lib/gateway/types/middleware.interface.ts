@@ -17,7 +17,7 @@
 import {IGatewayContext} from '../types';
 
 export interface IMiddleware {
-    execute: (ctx: IGatewayContext) => {};
+    execute: (ctx: IGatewayContext) => Promise<any>;
     start: () => {};
     stop: () => {};
 }
