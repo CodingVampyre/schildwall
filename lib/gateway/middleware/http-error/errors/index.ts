@@ -1,1 +1,1 @@
-export * from './not-found-exception.class';
+export * from './4xx-errors.class';

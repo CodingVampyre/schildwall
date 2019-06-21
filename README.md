@@ -1,7 +1,7 @@
 # Schildwall
 
 <p align="center">
-  <img height="50px" src="https://user-images.githubusercontent.com/12459210/59879324-b9a78e00-93aa-11e9-8068-06fe50ab6754.png?raw=true" alt="Schildwall Icon"/>
+  <img height="100px" src="https://user-images.githubusercontent.com/12459210/59879324-b9a78e00-93aa-11e9-8068-06fe50ab6754.png?raw=true" alt="Schildwall Icon"/>
 </p>
 
 Schildwall is a service to manage security and accessibility of API-Networks.
