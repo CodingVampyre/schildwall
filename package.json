@@ -1,6 +1,6 @@
 {
   "name": "@vampyreio/schildwall",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "gateway for microservice infrastructures",
   "main": "build/lib/index.js",
   "types": "build/lib/index.d.ts",

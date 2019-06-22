@@ -61,6 +61,8 @@ because the first parameter of the path will be mapped onto the provided endpoin
 
 
 ## Middleware
+
+## Defining a Middleware
 Middleware can be attached to the gateway easily. 
 A Middleware contains methods that control what it should do on startup, on shutdown and on execution.
 It has access to the servers request and response via the `ctx` object. 
@@ -108,5 +110,7 @@ class HeaderScanner extends Middleware {
 
 }
 ```
+
+## Handle HTTP-Errors manually
 
 ## Error Handling

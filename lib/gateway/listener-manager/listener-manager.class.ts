@@ -21,11 +21,15 @@ import { TargetSelector } from '..';
 import { IGatewayTarget } from '../types';
 import { Middleware } from '../middleware';
 import { HttpError } from '../middleware/http-error';
+import { MiddlewareErrorHandler, StandardErrorHandler } from '../middleware/error-handler';
 
 export class ListenerManager extends EventEmitter {
 
     private targetSelector: TargetSelector = new TargetSelector();
     private middlewares: Middleware[] = [];
+    private middlewareErrorHandlers: MiddlewareErrorHandler[] = [
+        new StandardErrorHandler(),
+    ];
 
     /**
      * 
@@ -45,25 +49,12 @@ export class ListenerManager extends EventEmitter {
                     await middleware.execute({request, response});
             } catch (error) {
 
-                // TODO send to error handing module
-                // ************
-
-                // make typesafe
-                error = error as HttpError;
-
-                // set status code to error code
-                response.statusCode = error.httpStatusCode || 500;
-
-                // write mandatory headers
-                for (const header in error.headers) response.setHeader(header, error.headers[header]);
-
-                // end
-                return response.end();
-                // ************
+                // TODO allow looping
+                this.middlewareErrorHandlers[0].execute({request, response}, error);
             }
 
             // send requet to actual server
-            //return proxy.web(request, response, { target: endpoint });
+            return proxy.web(request, response, { target: endpoint });
         }
     }
 
