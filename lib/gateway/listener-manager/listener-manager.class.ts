@@ -20,7 +20,6 @@ import { EventEmitter } from "events";
 import { TargetSelector } from '..';
 import { IGatewayTarget } from '../types';
 import { Middleware } from '../middleware';
-import { HttpError } from '../middleware/http-error';
 import { MiddlewareErrorHandler, StandardErrorHandler } from '../middleware/error-handler';
 
 export class ListenerManager extends EventEmitter {
@@ -45,12 +44,18 @@ export class ListenerManager extends EventEmitter {
 
             // execute middlewares middleware
             try {
-                for (const middleware of this.middlewares) 
-                    await middleware.execute({request, response});
+                for (const middleware of this.middlewares)
+                    await middleware.execute({ request, response });
             } catch (error) {
 
-                // TODO allow looping
-                this.middlewareErrorHandlers[0].execute({request, response}, error);
+                // choose the best error handler
+                for (const handler of this.middlewareErrorHandlers) {
+                    if (handler.errorCodeToCatch == null || handler.errorCodeToCatch === error.httpStatusCode) { 
+                        return handler.execute({ request, response }, error); 
+                    }
+                }
+
+                console.log('[gateway] no error handler was selected');
             }
 
             // send requet to actual server
@@ -58,8 +63,22 @@ export class ListenerManager extends EventEmitter {
         }
     }
 
+    /**
+     * creates the target endpoints
+     */
     public setTargets(targets: Array<IGatewayTarget>) {
         this.targetSelector.setTargets(targets);
+    }
+
+    /**
+     * bind error handlers to handle middleware handling
+     */
+    public bindMiddlewareErrorHandlers(middlewareErrorHandlers: MiddlewareErrorHandler[]) {
+        for (const handler of middlewareErrorHandlers) {
+            this.middlewareErrorHandlers.unshift(handler); // unshift grants the first error handler also is caleld first
+        }
+
+        console.dir(this.middlewareErrorHandlers);
     }
 
     /**

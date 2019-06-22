@@ -21,6 +21,9 @@ import { HttpError } from '../http-error';
  * 
  */
 export interface MiddlewareErrorHandler {
+
+    // the error code, if left empty, all error will be catched
+    errorCodeToCatch?: number;
     
     // main method to run code that gets executed when an error is thrown
     execute: (ctx: IGatewayContext, error: HttpError) => Promise<void>;

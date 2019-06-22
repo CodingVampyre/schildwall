@@ -1,6 +1,7 @@
 import { MiddlewareErrorHandler } from "./middleware-error-handler.interface";
 import { IGatewayContext } from "../../types";
 import { HttpError } from "../http-error";
+import { BadGatewayException } from '../http-error';
 
 /*
  * Copyright 2019 Tobias Kavsek
@@ -24,7 +25,7 @@ import { HttpError } from "../http-error";
 export class StandardErrorHandler implements MiddlewareErrorHandler {
 
     public async execute(ctx: IGatewayContext, error: HttpError): Promise<void> {
-        console.log('[Default Error Handler] catched', error.message);
+        console.log('[Default Error Handler]', error.message);
 
         // set status code to error code
         ctx.response.statusCode = error.httpStatusCode || 500;

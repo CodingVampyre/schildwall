@@ -34,9 +34,7 @@ import { HeaderMiddleware } from './app/middleware';
         { endpoint: 'http://localhost:58', name: 'local58' },
         { endpoint: 'http://google.com', name: 'google' },
     ],
-    middlewares: [
-        new HeaderMiddleware(),
-    ],
+    middlewares: [new HeaderMiddleware()],
 })
 export class Gateway extends MasterGateway { }
 
@@ -62,7 +60,7 @@ because the first parameter of the path will be mapped onto the provided endpoin
 
 ## Middleware
 
-## Defining a Middleware
+### Defining a Middleware
 Middleware can be attached to the gateway easily. 
 A Middleware contains methods that control what it should do on startup, on shutdown and on execution.
 It has access to the servers request and response via the `ctx` object. 
@@ -88,10 +86,9 @@ class HeaderScanner extends Middleware {
      * executes when a request enters
      */
     public async execute(ctx: IGatewayContext): Promise<any> {
-
-        if (ctx.request.headers['kill-me'] === 'true') 
+        if (ctx.request.headers['kill-me'] === 'true') {
             throw new BadGatewayException('kill-me header was found');
-
+        }
     }
 
     /**
@@ -111,6 +108,47 @@ class HeaderScanner extends Middleware {
 }
 ```
 
-## Handle HTTP-Errors manually
+### Handle HTTP-Errors manually
+If you want to futher manipulate how your gateway behaves when an error is thrown, you can insert a custom error handler.
+Error classes implement the MiddlewareErrorHandler which takes following parameters:
+
+* `errorCodeToCatch: number` is the error code for which the error should be handled.
+* `execute: (ctx: IGatewayContext, error: HttpError) => Promise<void>` is the handler itself.
+
+> In future versions, instead of a manual error code, an error class could be passed by a decorator function
+
+```typescript
+import { GatewayApp, MasterGateway, ListenerErrorHandler, Middleware, IGatewayContext, BadGatewayException, MiddlewareErrorHandler, HttpError } from '../lib';
+
+/**
+ * handles 502 errors 
+ */
+class MyFiveZeroTwo implements MiddlewareErrorHandler {
+
+    public errorCodeToCatch: number = 502;
+
+    public async execute(ctx: IGatewayContext, error: HttpError) {
+
+        ctx.response.write('There is actually text in this reply!');
+        ctx.response.statusCode = 502;
+        return ctx.response.end();
+
+    }
+}
+
+@GatewayApp({
+    log: true,
+    listenerErrorHandler: new ListenerErrorHandler,
+    endpoints: [
+        { endpoint: 'http://localhost:3000', name: 'mock' }
+    ],
+    middlewares: [new HeaderScanner()],
+    middlewareErrorHandlers: [new MyFiveZeroTwo()],
+})
+class Gateway extends MasterGateway { }
+
+const gateway = new Gateway();
+gateway.init().then((server) => server.listen(8000));
+```
 
 ## Error Handling

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {GatewayApp, MasterGateway, ListenerErrorHandler, Middleware, IGatewayContext, BadGatewayException} from '../lib';
+import { GatewayApp, MasterGateway, ListenerErrorHandler, Middleware, IGatewayContext, BadGatewayException, MiddlewareErrorHandler, HttpError } from '../lib';
 
 /**
  * checks for a 'kill-me' header and if it is true, throw an exception
@@ -29,6 +29,22 @@ class HeaderScanner extends Middleware {
 
 }
 
+/**
+ * handles 502 errors 
+ */
+class MyFiveZeroTwo implements MiddlewareErrorHandler {
+
+    public errorCodeToCatch = 502;
+
+    public async execute(ctx: IGatewayContext, error: HttpError) {
+
+        ctx.response.write('There is actually text in this reply!');
+        ctx.response.statusCode = 502;
+        return ctx.response.end();
+
+    }
+}
+
 @GatewayApp({
     log: true,
     listenerErrorHandler: new ListenerErrorHandler,
@@ -39,9 +55,12 @@ class HeaderScanner extends Middleware {
     ],
     middlewares: [
         new HeaderScanner(),
-    ]
+    ],
+    middlewareErrorHandlers: [
+        new MyFiveZeroTwo(),
+    ],
 })
-class Gateway extends MasterGateway {}
+class Gateway extends MasterGateway { }
 
 const gateway = new Gateway();
 gateway.init().then((server) => server.listen(8000));

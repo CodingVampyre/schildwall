@@ -1,6 +1,6 @@
 import { IGatewayTarget } from '.';
 import { ListenerErrorHandler } from '../error-handler/listener-error-handler.class';
-import { Middleware } from '../middleware';
+import { Middleware, MiddlewareErrorHandler } from '../middleware';
 
 export interface IGatewayOptions {
 
@@ -11,8 +11,11 @@ export interface IGatewayOptions {
     listenerErrorHandler: ListenerErrorHandler;
 
     // a list of endpoints
-    endpoints: Array<IGatewayTarget>;
+    endpoints: IGatewayTarget[];
+
+    // middleware error handlers;
+    middlewareErrorHandlers?: MiddlewareErrorHandler[];
 
     // middlewares
-    middlewares?: Array<Middleware>;
+    middlewares?: Middleware[];
 }

@@ -55,6 +55,12 @@ export function GatewayApp(options: IGatewayOptions) {
                     await listenerManager.startMiddlewares();
                 }
 
+                // middleware error handlers
+                if (options.middlewareErrorHandlers) {
+                    if (options.log) console.log('[gateway] initializing middleware error handlers...');
+                    listenerManager.bindMiddlewareErrorHandlers(options.middlewareErrorHandlers);
+                }
+
                 return createServer(listenerManager.createListener(proxy));
             }
         }
