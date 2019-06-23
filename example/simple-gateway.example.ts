@@ -38,8 +38,9 @@ class MyFiveZeroTwo implements MiddlewareErrorHandler {
 
     public async execute(ctx: IGatewayContext, error: HttpError) {
 
+        ctx.response.setHeader('my-test', 'true');
+        ctx.response.statusCode = this.errorCodeToCatch;
         ctx.response.write('There is actually text in this reply!');
-        ctx.response.statusCode = 502;
         return ctx.response.end();
 
     }
