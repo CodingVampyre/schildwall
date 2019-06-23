@@ -1,5 +1,5 @@
 {
-  "name": "@vampyreio/schildwall",
+  "name": "schildwall",
   "version": "0.2.0",
   "description": "gateway for microservice infrastructures",
   "main": "build/lib/index.js",
