@@ -64,6 +64,5 @@ export function GatewayApp(options: IGatewayOptions) {
                 return createServer(listenerManager.createListener(proxy));
             }
         }
-
     }
 }
