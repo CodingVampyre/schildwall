@@ -163,8 +163,6 @@ Following routes are currently supported:
 - [ ] `PATCH /middleware/:middlewareId` - changes a middlewares settings
 - [ ] `DELETE /middleware/:middlewareId` - removes a selected middlware
 
-    const api = new GatewayApiServer(data.manager as ListenerManager).run(8081);
-
 ### Minimal with API
 ``` typescript
 @GatewayApp({
@@ -186,6 +184,5 @@ gateway.init().then((data) => {
     const api = new GatewayApiServer(data.manager as ListenerManager).run(8081);
 });
 ```
-
 
 ## Error Handling

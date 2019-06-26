@@ -77,8 +77,6 @@ export class ListenerManager extends EventEmitter {
         for (const handler of middlewareErrorHandlers) {
             this.middlewareErrorHandlers.unshift(handler); // unshift grants the first error handler also is caleld first
         }
-
-        console.dir(this.middlewareErrorHandlers);
     }
 
     /**
@@ -117,6 +115,13 @@ export class ListenerManager extends EventEmitter {
                 isRunning: middleware.isRunning,
             }
         });
+    }
+
+    /**
+     * 
+     */
+    public getEndpoints(): IGatewayTarget[] {
+        return this.targetSelector.getTargets();
     }
 
 }

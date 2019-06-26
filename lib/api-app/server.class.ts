@@ -14,31 +14,34 @@
  * limitations under the License.
  */
 
-import Restify from 'restify';
+import {Request, Response, createServer} from 'restify';
 import { ListenerManager } from '../gateway/listener-manager';
-import { MiddlewareRouter } from './router';
+import { MiddlewareRouter, EndpointsRouter } from './router';
 
 /**
  * 
  */
 export class GatewayApiServer {
 
-    private server = Restify.createServer();
+    private server = createServer();
 
-    private middlewareRouter: MiddlewareRouter;
+    private middlewareRouter: MiddlewareRouter = new MiddlewareRouter();
+    private endpointsRouter: EndpointsRouter = new EndpointsRouter();
 
     constructor(listenerManager: ListenerManager) {
-        this.middlewareRouter = new MiddlewareRouter();
 
         // routes
         this.server.get('/', this.getHealth);
 
         // middleware
-        this.server.get('/middlewares', (request: Restify.Request, response: Restify.Response) => this.middlewareRouter.getMiddlewareList(request, response, listenerManager)); // TODO list all middlewares
+        this.server.get('/middlewares', (request: Request, response: Response) => this.middlewareRouter.getMiddlewareList(request, response, listenerManager)); // list all middlewares
         // this.server.get('/middlewares/:middlewareId'); // TODO list metadata of a specific middleware
         // this.server.post('/middleware/:middlewareId/toggle') // TODO starts or stops a middleware
         // this.server.patch('/middleware/:middlewareId') // TODO changes a middlewares settings
         // this.server.del('/middleware/:middlewareId') // TODO removes a selected middlware
+
+        // endpoints
+        this.server.get('/endpoints', (request: Request, response: Response) => this.endpointsRouter.getEndpoints(request, response, listenerManager)); // list all endpoints
     }
 
     /**
@@ -64,7 +67,7 @@ export class GatewayApiServer {
     /**
      * 
      */
-    private getHealth(request: Restify.Request, response: Restify.Response) {
+    private getHealth(request: Request, response: Response) {
         response.send('Gateway-API works!');
     }
 }
