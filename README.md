@@ -157,11 +157,16 @@ gateway.init().then((data) => {
 Schildwall supports accessing and manipulating the gateway via an controlling API.
 Following routes are currently supported:
 
+### Miidleware
 - [x] `GET /middlewares` - Lists metadata about 
 - [ ] `GET /middlewares/:middlewareId'` - list metadata of a specific middleware
 - [ ] `POST /middleware/:middlewareId/toggle` - starts or stops a middleware
 - [ ] `PATCH /middleware/:middlewareId` - changes a middlewares settings
 - [ ] `DELETE /middleware/:middlewareId` - removes a selected middlware
+
+### Endpoints
+- [x] `GET /endpoints` - Lists endpoints
+- [ ] `POST /middlewares` - Creates a new Endpoint
 
 ### Minimal with API
 ``` typescript
