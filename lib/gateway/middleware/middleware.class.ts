@@ -1,4 +1,5 @@
 import { IGatewayContext, IMiddleware } from "../types";
+import cuid from 'cuid';
 
 /*
  * Copyright 2019 Tobias Kavsek
@@ -21,6 +22,10 @@ import { IGatewayContext, IMiddleware } from "../types";
  */
 export abstract class Middleware implements IMiddleware {
 
+    constructor(options: {name: string}) {
+        this.name = options.name;
+    }
+
     /**
      * executes when a request is made
      */
@@ -29,12 +34,29 @@ export abstract class Middleware implements IMiddleware {
     /**
      * executes when a middleware is bound
      */
-    public async start(): Promise<any> { }
+    public async start(): Promise<any> { 
+        this.isRunning = true;
+    }
 
     /**
      * executes when the server should stop
      */
-    public async stop(): Promise<any> { }
+    public async stop(): Promise<any> { 
+        this.isRunning = false;
+    }
+
+    // ************
+    // ---- Metadata ----
+    // ************
+
+    // auto generated id 
+    public readonly id: string = cuid();
+
+    // name of the middleware
+    public readonly name: string;
+
+    // flag to see if a middleware is running if there are active processes
+    public isRunning: boolean = false;
 
 }
 

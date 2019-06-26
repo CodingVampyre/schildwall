@@ -148,7 +148,44 @@ class MyFiveZeroTwo implements MiddlewareErrorHandler {
 class Gateway extends MasterGateway { }
 
 const gateway = new Gateway();
-gateway.init().then((server) => server.listen(8000));
+gateway.init().then((data) => {
+    data.server.listen(8000);
+});
 ```
+
+## API
+Schildwall supports accessing and manipulating the gateway via an controlling API.
+Following routes are currently supported:
+
+- [x] `GET /middlewares` - Lists metadata about 
+- [ ] `GET /middlewares/:middlewareId'` - list metadata of a specific middleware
+- [ ] `POST /middleware/:middlewareId/toggle` - starts or stops a middleware
+- [ ] `PATCH /middleware/:middlewareId` - changes a middlewares settings
+- [ ] `DELETE /middleware/:middlewareId` - removes a selected middlware
+
+    const api = new GatewayApiServer(data.manager as ListenerManager).run(8081);
+
+### Minimal with API
+``` typescript
+@GatewayApp({
+    log: true,
+    listenerErrorHandler: new ListenerErrorHandler,
+    endpoints: [
+        { endpoint: 'http://localhost:3000', name: 'mock' }
+    ],
+})
+class Gateway extends MasterGateway { }
+
+const gateway = new Gateway();
+gateway.init().then((data) => {
+
+    // create Server
+    data.server.listen(8000);
+
+    // create API
+    const api = new GatewayApiServer(data.manager as ListenerManager).run(8081);
+});
+```
+
 
 ## Error Handling

@@ -14,17 +14,20 @@
  * limitations under the License.
  */
 
-import {IGatewayContext} from '../types';
+import {Request, Response} from 'restify';
+import { ListenerManager } from '../../gateway/listener-manager';
 
-export interface IMiddleware {
+ /**
+  * 
+  */
+export class MiddlewareRouter {
 
-    // methods
-    execute: (ctx: IGatewayContext) => Promise<any>;
-    start: () => {};
-    stop: () => {};
+    /**
+     * gets a list of all middlewares and their metadata
+     */
+    public getMiddlewareList(request: Request, response: Response, listenerManager: ListenerManager) {
+        console.log('getting listener manager request data');
+        response.send(listenerManager.getMiddlewareMetadata());
+    }
 
-    // metadata
-    readonly id: string;
-    readonly name: string;
-    isRunning: boolean;
 }

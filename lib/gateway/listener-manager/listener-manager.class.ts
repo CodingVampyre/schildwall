@@ -102,4 +102,21 @@ export class ListenerManager extends EventEmitter {
         for (const middleware of this.middlewares) await middleware.stop();
     }
 
+    // ************
+    // API-METADATA
+    // ************
+
+    /**
+     * 
+     */
+    public getMiddlewareMetadata(): Array<{id: string, name: string, isRunning: boolean}> {
+        return this.middlewares.map(middleware => {
+            return {
+                id: middleware.id,
+                name: middleware.name,
+                isRunning: middleware.isRunning,
+            }
+        });
+    }
+
 }

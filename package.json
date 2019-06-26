@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/CodingVampyre/schildwall#readme",
   "dependencies": {
+    "cuid": "^2.1.6",
     "http-proxy": "^1.17.0",
     "restify": "^8.3.3"
   },

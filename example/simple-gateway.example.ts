@@ -16,6 +16,7 @@
 
 import { GatewayApp, MasterGateway, ListenerErrorHandler, Middleware, IGatewayContext, BadGatewayException, MiddlewareErrorHandler, HttpError } from '../lib';
 import { GatewayApiServer } from '../lib';
+import { ListenerManager } from '../lib/gateway/listener-manager';
 
 /**
  * checks for a 'kill-me' header and if it is true, throw an exception
@@ -54,7 +55,7 @@ class MyFiveZeroTwo implements MiddlewareErrorHandler {
         { endpoint: 'http://localhost:3000', name: 'mock' }
     ],
     middlewares: [
-        new HeaderScanner(),
+        new HeaderScanner({ name: 'HeaderScanner' }),
     ],
     middlewareErrorHandlers: [
         new MyFiveZeroTwo(),
@@ -63,9 +64,7 @@ class MyFiveZeroTwo implements MiddlewareErrorHandler {
 class Gateway extends MasterGateway { }
 
 const gateway = new Gateway();
-gateway.init().then((server) => {
-    server.listen(8000);
-
-    const api = new GatewayApiServer().run(8081);
+gateway.init().then((data) => {
+    data.server.listen(8000);
+    const api = new GatewayApiServer(data.manager as ListenerManager).run(8081);
 });
-

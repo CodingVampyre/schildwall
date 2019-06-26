@@ -1,3 +1,5 @@
+import { ListenerManager } from "../listener-manager";
+
 /*
  * Copyright 2019 Tobias Kavsek
  *

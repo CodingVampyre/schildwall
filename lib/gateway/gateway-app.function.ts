@@ -34,7 +34,7 @@ export function GatewayApp(options: IGatewayOptions) {
             /**
              * 
              */
-            public async init(): Promise<Server> {
+            public async init(): Promise<{server: Server, manager: ListenerManager}> {
 
                 // instanciate server
                 if (options.log) console.log('[gateway] instantiate server');
@@ -61,7 +61,10 @@ export function GatewayApp(options: IGatewayOptions) {
                     listenerManager.bindMiddlewareErrorHandlers(options.middlewareErrorHandlers);
                 }
 
-                return createServer(listenerManager.createListener(proxy));
+                return {
+                    server: createServer(listenerManager.createListener(proxy)),
+                    manager: listenerManager,
+                }
             }
         }
     }
