@@ -124,4 +124,11 @@ export class ListenerManager extends EventEmitter {
         return this.targetSelector.getTargets();
     }
 
+    /**
+     * 
+     */
+    public createEndpoint(target: IGatewayTarget) {
+        return this.targetSelector.addTarget(target);
+    }
+
 }

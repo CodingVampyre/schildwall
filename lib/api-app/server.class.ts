@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {Request, Response, createServer} from 'restify';
+import {Request, Response, createServer, plugins} from 'restify';
 import { ListenerManager } from '../gateway/listener-manager';
 import { MiddlewareRouter, EndpointsRouter } from './router';
 
@@ -30,6 +30,8 @@ export class GatewayApiServer {
 
     constructor(listenerManager: ListenerManager) {
 
+        this.server.use(plugins.bodyParser());
+
         // routes
         this.server.get('/', this.getHealth);
 
@@ -42,6 +44,7 @@ export class GatewayApiServer {
 
         // endpoints
         this.server.get('/endpoints', (request: Request, response: Response) => this.endpointsRouter.getEndpoints(request, response, listenerManager)); // list all endpoints
+        this.server.post('/endpoints', (request: Request, response: Response) => this.endpointsRouter.postEndpoint(request, response, listenerManager)); // creates a new endpoint
     }
 
     /**

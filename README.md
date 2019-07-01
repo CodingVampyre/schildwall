@@ -166,7 +166,11 @@ Following routes are currently supported:
 
 ### Endpoints
 - [x] `GET /endpoints` - Lists endpoints
-- [ ] `POST /middlewares` - Creates a new Endpoint
+- [ ] `GET /endpoints/:endpointId` - describes a single endpoint 
+- [x] `POST /endpoints` - Creates a new Endpoint
+Params:
+* `endpoint`: an url to a new endpoint
+* `name`: is used as prefix in the gateway
 
 ### Minimal with API
 ``` typescript

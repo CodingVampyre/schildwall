@@ -50,6 +50,13 @@ export class TargetSelector {
     /**
      * 
      */
+    public addTarget(target: IGatewayTarget): void {
+        this.targets.push(target);
+    }
+
+    /**
+     * 
+     */
     private fetchTargetHost(name: string): string | null {
         for (const target of this.targets) if (name === target.name) return target.endpoint;
         return null;
