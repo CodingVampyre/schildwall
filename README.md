@@ -1,4 +1,8 @@
 # Schildwall
+![Version](https://img.shields.io/npm/v/schildwall.svg)
+![License](https://img.shields.io/github/license/CodingVampyre/schildwall.svg)
+![Size](https://img.shields.io/github/repo-size/CodingVampyre/schildwall.svg)
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
 
 <p align="center">
   <img height="100px" src="https://user-images.githubusercontent.com/12459210/59879324-b9a78e00-93aa-11e9-8068-06fe50ab6754.png?raw=true" alt="Schildwall Icon"/>

@@ -1,5 +1,5 @@
 import { IGatewayContext, IMiddleware } from "../types";
-import cuid from 'cuid';
+import uuidv1 from 'uuid/v1';
 
 /*
  * Copyright 2019 Tobias Kavsek
@@ -50,7 +50,7 @@ export abstract class Middleware implements IMiddleware {
     // ************
 
     // auto generated id 
-    public readonly id: string = cuid();
+    public readonly id: string = uuidv1();
 
     // name of the middleware
     public readonly name: string;

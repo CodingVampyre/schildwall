@@ -19,9 +19,12 @@ import HttpProxy from 'http-proxy';
 import { EventEmitter } from "events";
 import { TargetSelector } from '..';
 import { IGatewayTarget } from '../types';
-import { Middleware } from '../middleware';
+import { Middleware, Instance } from '../middleware';
 import { MiddlewareErrorHandler, StandardErrorHandler } from '../middleware/error-handler';
 
+/**
+ * 
+ */
 export class ListenerManager extends EventEmitter {
 
     private targetSelector: TargetSelector = new TargetSelector();
